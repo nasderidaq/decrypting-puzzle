@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Creator</title>
+</head>
+<body>
+<script>
+'use strict';
+{
+	const win = window;
+	const {
+		Promise,
+		String,
+		TextDecoder,
+		TextEncoder,
+		document,
+		crypto,
+	} = window;
+	const {
+		body,
+		head,
+	} = document;
+
+	const encoder = new TextEncoder();
+	const decoder = new TextDecoder();
+
+	const bufferToText = (buffer) => {
+		return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+	};
+
+	const textToBuffer = (text) => {
+		return Uint8Array.from(atob(text), (c) => c.charCodeAt(0));
+	};
+
+	const digestAlgorithm = 'SHA-256';
+	const targetLength = 43;
+	const textToDigestKey = async (text) => {
+		const buffer = encoder.encode(text);
+		const digest = await crypto.subtle.digest(digestAlgorithm, buffer);
+		const base64 = bufferToText(digest);
+		const truncated = base64.substr(0, targetLength);
+		const expanded = truncated + '0'.repeat(targetLength - truncated.length);
+		return expanded.replace(/[^A-Za-z0-9]/g, (c) => c === '+' ? '-' : '_');
+	};
+
+	const algorithmDescription = {
+		name: 'AES-GCM',
+		length: 256,
+	};
+	const algorithm = {
+		name: 'AES-GCM',
+		iv: new Uint8Array(12),
+	};
+	const keyFormat = 'jwk';
+	const keyExtractable = true;
+	const keyFunctionality = ['encrypt', 'decrypt'];
+
+	const uiStyles = document.createElement('style');
+	const cssRule = (selectors, rules) => {
+		return selectors.join(',') + '{' + rules.join(';') + '}';
+	};
+	uiStyles.appendChild(document.createTextNode([
+		cssRule(['.puzzles > table'], [
+			'border: 1px solid #ccc',
+			'margin: 4px',
+			'padding: 4px',
+		]),
+		cssRule(['textarea'], [
+			'display: block',
+		]),
+		cssRule(['.json'], [
+			'font-family: monospace',
+			'margin: 16px 0',
+		]),
+	].join('\n')));
+	head.appendChild(uiStyles);
+
+	const encode = async (key, text) => {
+		const digestKey = await textToDigestKey(key);
+
+		const cryptoKey = await crypto.subtle.importKey(keyFormat, {
+			alg: 'A256GCM',
+			ext: keyExtractable,
+			key_ops: keyFunctionality,
+			kty: 'oct',
+			k: digestKey,
+		}, algorithm, keyExtractable, keyFunctionality);
+		const target = encoder.encode(text);
+		const encrypted = await crypto.subtle.encrypt(algorithm, cryptoKey, target);
+		return bufferToText(encrypted);
+	};
+	let latestInput = {};
+	const onInput = async () => {
+		const latest = {};
+		latestInput = latest;
+
+		let output = '';
+		let outputRaw = {};
+		for (let index = puzzles.length - 1; index >= 0; index--) {
+			const puzzle = puzzles[index];
+			const promptValue = puzzle.prompt.value;
+			const answerValue = puzzle.answer.value;
+
+			if (!puzzle.answer.value) {
+				output = JSON.stringify({prompt: promptValue});
+				outputRaw = {prompt: promptValue};
+			} else {
+				const [answer, hints] = await Promise.all([
+					encode(answerValue, output),
+					Promise.all(puzzle.hints.map(({answer, reward}) => encode(answer.value, reward.value))),
+				]);
+				const json = {
+					prompt: promptValue,
+					answer: answer,
+				};
+				outputRaw = {
+					prompt: promptValue,
+					answer: answerValue,
+					reward: outputRaw,
+				};
+				if (hints.length > 0) {
+					json.hints = hints;
+					outputRaw.hints = puzzle.hints.map(({answer, reward}) => {
+						return {
+							answer: answer.value,
+							reward: reward.value,
+						};
+					});
+				}
+				output = JSON.stringify(json);
+			}
+		}
+		if (latest === latestInput) {
+			uiJson.nodeValue = output;
+			uiJsonRaw.nodeValue = JSON.stringify(outputRaw);
+		}
+	};
+
+	const puzzles = [];
+
+	const Puzzle = class {
+		constructor() {
+			this.prompt = null;
+			this.answer = null;
+			this.hints = [];
+		}
+
+		render() {
+			const uiPuzzle = document.createElement('table');
+			uiPuzzles.appendChild(uiPuzzle);
+			const uiBody = document.createElement('tbody');
+			uiPuzzle.appendChild(uiBody);
+
+			const createRow = (tbody, description) => {
+				const uiRow = document.createElement('tr');
+				tbody.appendChild(uiRow);
+				const uiDescriptionCell = document.createElement('td');
+				uiRow.appendChild(uiDescriptionCell);
+				uiDescriptionCell.appendChild(document.createTextNode(description));
+				return uiRow;
+			};
+
+			const uiPromptRow = createRow(uiBody, 'prompt');
+			const uiPromptInputCell = document.createElement('td');
+			uiPromptInputCell.colSpan = 2;
+			uiPromptRow.appendChild(uiPromptInputCell);
+			this.prompt = document.createElement('textarea');
+			this.prompt.rows = 2;
+			this.prompt.cols = 80;
+			this.prompt.addEventListener('input', onInput);
+			uiPromptInputCell.appendChild(this.prompt);
+
+			const uiAnswerRow = createRow(uiBody, 'answer');
+			const uiAnswerInputCell = document.createElement('td');
+			uiAnswerInputCell.colSpan = 2;
+			uiAnswerRow.appendChild(uiAnswerInputCell);
+			this.answer = document.createElement('input');
+			this.answer.addEventListener('input', onInput);
+			uiAnswerInputCell.appendChild(this.answer);
+
+			const uiHints = document.createElement('tbody');
+			uiPuzzle.appendChild(uiHints);
+			const createHintRow = (description) => {
+				const uiRow = createRow(uiHints, description);
+
+				const uiInputCell = document.createElement('td');
+				uiRow.appendChild(uiInputCell);
+				const uiInput = document.createElement('input');
+				uiInput.addEventListener('input', onInput);
+				uiInputCell.appendChild(uiInput);
+
+				const uiTextAreaCell = document.createElement('td');
+				uiRow.appendChild(uiTextAreaCell);
+				const uiTextArea = document.createElement('textarea');
+				uiTextArea.rows = 2;
+				uiTextArea.cols = 80;
+				uiTextArea.addEventListener('input', onInput);
+				uiTextAreaCell.appendChild(uiTextArea);
+
+				return {answer: uiInput, reward: uiTextArea};
+			};
+
+			const uiNewHint = document.createElement('button');
+			uiNewHint.addEventListener('click', (event) => {
+				this.hints.push(createHintRow('hint'));
+			});
+			uiPuzzle.appendChild(uiNewHint);
+			uiNewHint.appendChild(document.createTextNode('+'));
+		}
+	};
+
+	const uiPuzzles = document.createElement('div');
+	uiPuzzles.classList.add('puzzles');
+	body.appendChild(uiPuzzles);
+
+	const uiNewPuzzle = document.createElement('button');
+	uiNewPuzzle.addEventListener('click', (event) => {
+		const puzzle = new Puzzle();
+		puzzles.push(puzzle);
+		puzzle.render();
+	});
+	body.appendChild(uiNewPuzzle);
+	uiNewPuzzle.appendChild(document.createTextNode('+'));
+
+	const uiJsonContainer = document.createElement('div');
+	uiJsonContainer.classList.add('json');
+	body.appendChild(uiJsonContainer);
+	const uiJson = document.createTextNode('');
+	uiJsonContainer.appendChild(uiJson);
+
+	const uiJsonRawContainer = document.createElement('div');
+	uiJsonRawContainer.classList.add('json');
+	body.appendChild(uiJsonRawContainer);
+	const uiJsonRaw = document.createTextNode('');
+	uiJsonRawContainer.appendChild(uiJsonRaw);
+
+}
+</script>
+</body>
+</html>
