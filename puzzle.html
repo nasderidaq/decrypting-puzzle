@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>???</title>
+</head>
+<body>
+<script>
+'use strict';
+{
+	const PUZZLE = {
+		"prompt":
+			"<p>I thought you might enjoy a little puzzle! We can start off simple:</p><p><b>What is the answer?</b> (To life" +
+			", the universe, and everything)</p>","answer":"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",
+		"hints":["KRT5jnPddvRw3Ocx/uiJrwf/xqhrEZ8LkFfKud01ENOyjLVMCTvneVXBM77d5D0u8WRGESr/GkbGGdYoEA=="]
+	};
+
+	const ENABLE_DATABASE = true;
+
+	const win = window;
+	const {
+		Promise,
+		String,
+		TextDecoder,
+		TextEncoder,
+		Uint8Array,
+		document,
+		crypto,
+		indexedDB,
+	} = window;
+	const {
+		body,
+		head,
+	} = document;
+
+	const encoder = new TextEncoder();
+	const decoder = new TextDecoder();
+
+	const bufferToText = (buffer) => {
+		return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+	};
+
+	const textToBuffer = (text) => {
+		return Uint8Array.from(atob(text), (c) => c.charCodeAt(0));
+	};
+
+	const digestAlgorithm = 'SHA-256';
+	const targetLength = 43;
+	const textToDigestKey = async (text) => {
+		const buffer = encoder.encode(text);
+		const digest = await crypto.subtle.digest(digestAlgorithm, buffer);
+		const base64 = bufferToText(digest);
+		const truncated = base64.substr(0, targetLength);
+		const expanded = truncated + '0'.repeat(targetLength - truncated.length);
+		return expanded.replace(/[^A-Za-z0-9]/g, (c) => c === '+' ? '-' : '_');
+	};
+
+	const algorithm = {
+		name: 'AES-GCM',
+		iv: new Uint8Array(12),
+	};
+	const keyFormat = 'jwk';
+	const keyExtractable = true;
+	const keyFunctionality = ['decrypt'];
+
+	const uiStyles = document.createElement('style');
+	const cssRule = (selectors, rules) => {
+		return selectors.join(',') + '{' + rules.join(';') + '}';
+	};
+	uiStyles.appendChild(document.createTextNode([
+		cssRule(['body'], [
+			'background: #eee',
+			'color: #333',
+			'font-family: sans-serif',
+		]),
+
+		cssRule(['.body'], [
+			'margin: 0 auto',
+			'max-width: 1024px',
+		]),
+		cssRule(['.body > div'], [
+			'background: #fff',
+			'border: 1px solid #ccc',
+			'border-radius: 8px',
+			'margin: 16px',
+			'padding: 16px',
+		]),
+
+		cssRule(['select'], [
+			'background: #fff',
+			'border: 1px solid #ccc',
+			'border-radius: 4px',
+			'color: #333',
+			'height: 38px',
+			'padding: 8px',
+		]),
+		cssRule(['option'], [
+			'height: 38px',
+			'padding: 80px',
+		]),
+
+		cssRule(['hr'], [
+			'border: none',
+			'border-top: 1px solid #ccc',
+			'margin: 16px -16px',
+		]),
+
+		cssRule(['form.blank'], [
+			'display: none',
+		]),
+
+		cssRule(['.inputBox'], [
+			'background: #fff',
+			'border: 1px solid #ccc',
+			'border-radius: 4px',
+			'display: inline-block',
+			'font-size: 32px',
+			'vertical-align: middle',
+		]),
+		cssRule(['.inputBox:after'], [
+			'color: #eee',
+			'content: ""',
+			'display: inline-block',
+			'width: 30px',
+			'text-align: center',
+		]),
+		cssRule(['.inputBox > input'], [
+			'background: none',
+			'border: none',
+			'color: #333',
+			'font-size: 32px',
+			'line-height: 38px',
+			'padding: 8px',
+		]),
+		cssRule(['.inputBox > input::placeholder'], [
+			'color: #ccc',
+		]),
+
+		cssRule(['form.unsolved .inputBox'], [
+			'background-color: #f8f8f8',
+		]),
+		cssRule(['form.unsolved .inputBox:after',
+		], [
+			'color: #ddd',
+			'content: "✗"',
+		]),
+		cssRule(['form.solved .inputBox'], [
+			'background-color: #efe',
+		]),
+		cssRule(['form.solved .inputBox:after',
+		], [
+			'color: #afa',
+			'content: "✔️"',
+		]),
+		cssRule(['form.hint .inputBox'], [
+			'background-color: #ffe',
+		]),
+		cssRule(['form.hint .inputBox:after'], [
+			'color: #ff6',
+			'content: "❓"',
+		]),
+
+		cssRule(['.solveButton'], [
+			'background: #f8f8f8',
+			'border: none',
+			'border-radius: 4px',
+			'color: #aaa',
+			'cursor: default',
+			'font-size: 16px',
+			'font-weight: bold',
+			'line-height: 38px',
+			'margin-left: 8px',
+			'padding: 9px',
+			'vertical-align: middle',
+			'width: 100px',
+		]),
+		cssRule(['form.solved .solveButton'], [
+			'background-color: #afa',
+			'color: #333',
+			'cursor: pointer',
+		]),
+		cssRule(['form.hint .solveButton'], [
+			'background-color: #ffe',
+			'color: #333',
+			'cursor: pointer',
+		]),
+
+		cssRule(['.keyboard'], [
+			'margin: 8px 0'
+		]),
+		cssRule(['.keyboard > button'], [
+			'background: none',
+			'border: none',
+			'color: #ccc',
+			'cursor: pointer',
+		]),
+
+		cssRule(['div.hint'], [
+			'background: #ffe',
+			'border: 1px solid #eed',
+			'line-height: 18px',
+			'margin: 16px 0',
+			'min-height: 18px',
+			'padding: 8px',
+		]),
+		cssRule(['div.hint:empty'], [
+			'visibility: hidden',
+		]),
+
+		cssRule(['.prompt'], [
+			'margin: 16px 0',
+		]),
+	].join('\n')));
+	head.appendChild(uiStyles);
+
+	const uiContainer = document.createElement('div');
+	uiContainer.classList.add('body');
+	body.appendChild(uiContainer);
+
+	const uiBody = document.createElement('div');
+	uiContainer.appendChild(uiBody);
+
+	const uiHistory = document.createElement('select');
+	uiHistory.addEventListener('input', (event) => {
+		setCurrentPuzzleByIndex(Number(uiHistory.value));
+	});
+	uiBody.appendChild(uiHistory);
+
+	const insertPuzzleEntry = (puzzleState) => {
+		const index = puzzleState.index;
+		const uiOption = document.createElement('option');
+		uiOption.value = String(index);
+		uiHistory.appendChild(uiOption);
+		const text = puzzleState.puzzle.answer ? `Puzzle ${String(index + 1)}` : 'Completed';
+		uiOption.appendChild(document.createTextNode(text));
+	};
+
+	uiBody.appendChild(document.createElement('hr'));
+
+	const uiForm = document.createElement('form');
+	uiForm.addEventListener('submit', async (event) => {
+		event.preventDefault();
+		const value = uiInput.value;
+		const decryptedField = await currentPuzzleState.check(value);
+		if (decryptedField) {
+			const decrypted = decryptedField.decrypted;
+			if (decryptedField.answer) {
+				setCurrentPuzzleByIndex(currentPuzzleState.index + 1);
+			} else {
+				uiHint.innerHTML = decrypted;
+			}
+		} else {
+			empty(uiHint);
+		}
+	});
+	uiBody.appendChild(uiForm);
+
+	const uiInputBox = document.createElement('div');
+	uiInputBox.classList.add('inputBox');
+	uiForm.appendChild(uiInputBox);
+
+	const uiInput = document.createElement('input');
+	uiInput.size = 30;
+	uiInput.spellcheck = false;
+	uiInput.addEventListener('input', (event) => {
+		onInputUpdate();
+	});
+	uiInputBox.appendChild(uiInput);
+	const del = (input, start, end) => {
+		const {selectionStart, selectionEnd} = input;
+		const length = end - start;
+		input.value = input.value.substr(0, start) + input.value.substr(end);
+		const adjust = (position) => {
+			if (position > start) {
+				if (position > end) {
+					position -= length;
+				} else {
+					position = start;
+				}
+			}
+			return position;
+		};
+		input.selectionStart = adjust(selectionStart);
+		input.selectionEnd = adjust(selectionEnd);
+	};
+	const onInputUpdate = () => {
+		const newValue = {};
+		newValue.value = uiInput.value;
+		newValue.selectionStart = uiInput.selectionStart;
+		newValue.selectionEnd = uiInput.selectionEnd;
+
+		const regexp = /([a-z])|(^\s+|[^A-Z0-9 ])|(\s{2,})/;
+		let match;
+		while (match = regexp.exec(newValue.value)) {
+			const start = match.index;
+			const end = start + match[0].length;
+			if (match[1]) {
+				newValue.value = newValue.value.substr(0, start) + match[1].toUpperCase() + newValue.value.substr(end);
+			} else if (match[2]) {
+				del(newValue, start, end);
+			} else if (match[3]) {
+				del(newValue, start + 1, end);
+			}
+		}
+		if (newValue.value !== uiInput.value) {
+			uiInput.value = newValue.value;
+			uiInput.setSelectionRange(newValue.selectionStart, newValue.selectionEnd);
+		}
+
+		checkInput();
+	};
+
+	const uiSolveButton = document.createElement('input');
+	uiSolveButton.classList.add('solveButton');
+	uiSolveButton.type = 'submit';
+	uiSolveButton.value = 'solve';
+	uiForm.appendChild(uiSolveButton);
+
+	const uiKeyboard = document.createElement('div');
+	uiKeyboard.classList.add('keyboard');
+	uiForm.appendChild(uiKeyboard);
+
+	const keyboardCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ';
+	for (const c of keyboardCharacters) {
+		const uiCharacter = document.createElement('button');
+		uiCharacter.addEventListener('click', (event) => {
+			const value = uiInput.value;
+			const index = uiInput.selectionEnd;
+			const newValue = value.substr(0, index) + c + value.substr(index);
+			uiInput.value = newValue;
+			uiInput.setSelectionRange(index + 1, index + 1);
+			onInputUpdate();
+		});
+		uiKeyboard.appendChild(uiCharacter);
+		uiCharacter.appendChild(document.createTextNode(c.replace(/ /, '⎵')));
+	}
+	const uiDelete = document.createElement('button');
+	uiDelete.addEventListener('click', (event) => {
+		const start =
+			uiInput.selectionStart === uiInput.selectionEnd ?
+				uiInput.selectionEnd - 1 : uiInput.selectionStart;
+		del(uiInput, start, uiInput.selectionEnd);
+		onInputUpdate();
+	});
+	uiKeyboard.appendChild(uiDelete);
+	uiDelete.appendChild(document.createTextNode('⌫'));
+
+	const uiHint = document.createElement('div');
+	uiHint.classList.add('hint');
+	uiBody.appendChild(uiHint);
+
+	const uiPrompt = document.createElement('div');
+	uiPrompt.classList.add('prompt');
+	uiBody.appendChild(uiPrompt);
+
+	const empty = (element) => {
+		while (element.lastChild) {
+			element.removeChild(element.lastChild);
+		}
+	};
+	const renderParagraphs = (element, text) => {
+		const paragraphs = text.match(/[^\n]+(\n[^\n]+)*/g) || [];
+		paragraphs.forEach((text) => {
+			const p = document.createElement('p');
+			element.appendChild(p);
+			p.appendChild(document.createTextNode(text));
+		});
+	};
+	const emptyAndRenderParagraphs = (element, text) => {
+		empty(element);
+		renderParagraphs(element, text);
+	};
+
+	const setInput = (value) => {
+		uiInput.value = value;
+		checkInput();
+	};
+	const checkInput = async () => {
+		const value = uiInput.value;
+		if (value) {
+			const {selectionStart, selectionEnd} = uiInput;
+			const decryptedField = await currentPuzzleState.check(value);
+			if (uiInput.selectionEnd === 0) {
+				uiInput.setSelectionRange(selectionStart, selectionEnd);
+			}
+			if (uiInput.value === value) {
+				if (decryptedField) {
+					if (decryptedField.answer) {
+						uiForm.className = 'solved';
+					} else {
+						uiForm.className = 'hint';
+					}
+				} else {
+					uiForm.className = 'unsolved';
+				}
+			}
+		} else {
+			uiForm.className = 'empty';
+		}
+	};
+
+	const EncrytpedField = class {
+		constructor(encrypted, answer = true) {
+			this.encryptedBuffer = textToBuffer(encrypted);
+			this.key = null;
+			this.decrypted = null;
+			this.answer = answer;
+		}
+
+		async check(key) {
+			if (!this.encryptedBuffer) {
+				return key === this.key;
+			}
+
+			const digestKey = await textToDigestKey(key);
+
+			const trialKey = await crypto.subtle.importKey(keyFormat, {
+				alg: 'A256GCM',
+				ext: keyExtractable,
+				key_ops: keyFunctionality,
+				kty: 'oct',
+				k: digestKey,
+			}, algorithm, keyExtractable, keyFunctionality);
+
+			let decrypted;
+			try {
+				decrypted = await crypto.subtle.decrypt(algorithm, trialKey, this.encryptedBuffer);
+			} catch (error) {
+				return false;
+			}
+
+			this.key = key;
+			this.decrypted = decoder.decode(decrypted);
+			this.encryptedBuffer = null;
+			return true;
+		}
+	};
+
+	const PuzzleState = class {
+		constructor(puzzle, index) {
+			this.puzzle = puzzle;
+			this.index = index;
+			this.answer = puzzle.answer && new EncrytpedField(puzzle.answer, true);
+			this.hints = puzzle.hints && puzzle.hints.map((hint) => new EncrytpedField(hint, false));
+
+			this.keysToEncrytpedField = new Map();
+			this.remaining = new Set([
+				...(this.answer ? [this.answer] : []),
+				...(this.hints || [])
+			]);
+		}
+
+		async check(key) {
+			const encryptedField = this.keysToEncrytpedField.get(key);
+			if (encryptedField) {
+				return encryptedField;
+			} else {
+				for (const encryptedField of this.remaining) {
+					if (await encryptedField.check(key)) {
+						this.remaining.delete(encryptedField);
+						this.keysToEncrytpedField.set(key, encryptedField);
+						if (encryptedField.answer) {
+							setPuzzleForIndex(JSON.parse(encryptedField.decrypted), this.index + 1);
+
+							if (this === currentPuzzleState) {
+								uiInput.placeholder = key;
+							}
+
+							if (!answerList[this.index]) {
+								dbPromise.then((db) => {
+									if (ENABLE_DATABASE) {
+										db.transaction(['answers'], 'readwrite')
+											.objectStore('answers')
+											.add({
+												puzzle: this.index,
+												answer: key,
+											});
+									}
+								});
+							}
+						}
+						return encryptedField;
+					}
+				}
+				return null;
+			}
+
+		}
+	};
+
+	const GameSate = class {
+		constructor() {
+			this.puzzles = [];
+			this.index = 0;
+		}
+
+		currentPuzzle() {
+			return this.puzzles[this.index];
+		}
+	};
+
+	const puzzleList = [];
+	const answerList = [];
+	let currentPuzzleState;
+	const setPuzzleForIndex = (puzzle, index) => {
+		if (!puzzleList[index]) {
+			const puzzleState = new PuzzleState(puzzle, index);
+			puzzleList[index] = puzzleState;
+			insertPuzzleEntry(puzzleState);
+			if (answerList[index]) {
+				puzzleState.check(answerList[index]);
+			}
+		}
+	};
+	const setCurrentPuzzleState = (puzzleState) => {
+		if (puzzleState !== currentPuzzleState) {
+			currentPuzzleState = puzzleState;
+
+			const {puzzle} = puzzleState;
+			uiPrompt.innerHTML = puzzle.prompt;
+			if (puzzle.answer) {
+				setInput('');
+				if (puzzleState.answer && puzzleState.answer.key) {
+					uiInput.placeholder = puzzleState.answer.key;
+				} else {
+					uiInput.placeholder = '';
+				}
+			} else {
+				uiForm.className = 'blank';
+			}
+			empty(uiHint);
+			uiHistory.value = puzzleState.index;
+		}
+	};
+	const setCurrentPuzzleByIndex = (index) => {
+		const puzzleState = puzzleList[index];
+		if (puzzleState) {
+			setCurrentPuzzleState(puzzleState);
+		}
+	};
+
+	setPuzzleForIndex(PUZZLE, 0);
+	setCurrentPuzzleByIndex(0);
+
+	const dbPromise = new Promise((resolve, reject) => {
+		const request = indexedDB.open('answers', 1);
+		request.onupgradeneeded = (event) => {
+			const db = request.result;
+			db.createObjectStore('answers', {keyPath: 'puzzle'});
+		};
+		request.onsuccess = (event) => {
+			resolve(request.result);
+		};
+	});
+	dbPromise.then((db) => {
+		const objectStore = db
+			.transaction('answers')
+			.objectStore('answers');
+		const cursorRequest = objectStore.openCursor();
+
+		cursorRequest.onsuccess = (event) => {
+			const cursor = cursorRequest.result;
+			if (cursor) {
+				const value = cursor.value;
+				const index = value.puzzle;
+				answerList[index] = value.answer;
+				if (puzzleList[index]) {
+					puzzleList[index].check(value.answer);
+				}
+				cursor.continue();
+			}
+		};
+	});
+}
+</script>
+</body>
+</html>
